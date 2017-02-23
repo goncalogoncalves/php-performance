@@ -14,3 +14,8 @@ $steps = $performance->getSteps('time desc');
 $report = $performance->buildReport();
 $resultSave = $performance->saveReport('performance.txt');
 ```
+
+Install with composer:
+```
+composer require devgo/php-performance
+```
