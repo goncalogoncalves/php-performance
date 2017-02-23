@@ -24,8 +24,9 @@ class Performance
     */
     public function __construct()
     {
-        $this->steps = array();
         $processID = $this->getProcessID();
+
+        $this->steps = array();
         $this->steps["process_id"] = $processID;
         $this->steps["execution_time"] = 0;
     }
@@ -100,10 +101,10 @@ class Performance
             foreach ($steps as $key => $row) {
                 $mid[$key]  = $row['difference_last_step']["duration"];
             }
-
             // Sort the data with mid descending
             // Add $steps as the last parameter, to sort by the common key
             array_multisort($mid, SORT_DESC, $steps);
+
         }elseif ($sort == "time asc") {
 
             foreach ($steps as $key => $row) {
@@ -139,15 +140,17 @@ class Performance
         $arrayNewStep["memory_peak"]       = $nowMemoryPeak;
         $arrayNewStep["memory_peak_size"]  = $nowMemoryPeakSize;
 
-        /*$timeEnd = microtime(true);
+        /*
+        // check step duration
+        $timeEnd = microtime(true);
         $stepDuration = $this->getDuration($timeStart, $timeEnd);
-        $arrayNewStep["step_duration"] = $stepDuration;*/
+        $arrayNewStep["step_duration"] = $stepDuration;
+        */
 
         $differenceToLastStep = 0;
         // check last step time
         $lastStep = end($this->steps);
         if (isset($lastStep["time"])) {
-            //$lastStepTime = $lastStep["time"];
             $differenceToLastStep = $this->getDuration($lastStep["time"], $timeStart);
         }
 
@@ -210,7 +213,6 @@ class Performance
         }else{
             return false;
         }
-
     }
 
     /**
@@ -250,7 +252,5 @@ class Performance
         $unit = array('b','kb','mb','gb','tb','pb');
         return @round($size/pow(1024,($i=floor(log($size,1024)))),2).' '.$unit[$i];
     }
-
-
 
 }
