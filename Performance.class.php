@@ -3,7 +3,7 @@
 /**
 * Class responsible for assisting in performance evaluation of a PHP code.
 * Example:
-* use Performance;
+* use Devgo\Performance;
 * $performance = new Performance();
 * $performance->addStep("1");
 * usleep(300000); // 0.30s
@@ -14,6 +14,8 @@
 * $report = $performance->buildReport();
 * $resultSave = $performance->saveReport('performance.txt');
 */
+namespace Devgo;
+
 class Performance
 {
     public $steps;
