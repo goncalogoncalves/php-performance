@@ -1,7 +1,7 @@
 {
     "name": "devgo/php-performance",
     "type": "class",
-    "description": "Class responsible for assisting in performance evaluation of a PHP code",
+    "description": "Class responsible for assisting in performance evaluation of a PHP code.",
     "keywords": ["php","performance","evaluation"],
     "homepage": "https://github.com/goncalogoncalves/php-performance",
     "license": "MIT",

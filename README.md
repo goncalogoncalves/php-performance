@@ -1,3 +1,6 @@
+[![Semver](http://img.shields.io/SemVer/1.0.0.png)](http://semver.org/spec/v1.0.0.html)
+[![Open Source Love](https://badges.frapsoft.com/os/v2/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
+[![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
 # php-performance
 Class responsible for assisting in performance evaluation of a PHP code
 
@@ -41,5 +44,5 @@ Execution time: 0.401 seconds
 
 #### Install with composer:
 ```
-composer require devgo/php-performance:dev-master
+composer require devgo/php-performance
 ```

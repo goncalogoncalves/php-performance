@@ -1,10 +1,11 @@
 <?php
 
+namespace Devgo;
+
 /**
 * Class responsible for assisting in performance evaluation of a PHP code.
 * Example:
-* use Devgo\Performance;
-* $performance = new Performance();
+* $performance = new Devgo\Performance();
 * $performance->addStep("1");
 * usleep(300000); // 0.30s
 * $performance->addStep("2");
@@ -14,8 +15,6 @@
 * $report = $performance->buildReport();
 * $resultSave = $performance->saveReport('performance.txt');
 */
-namespace Devgo;
-
 class Performance
 {
     public $steps;
