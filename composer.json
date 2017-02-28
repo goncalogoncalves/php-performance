@@ -20,5 +20,6 @@
         "classmap": [
             "Performance.class.php"
         ]
-    }
+    },
+    "version": "1.0.0"
 }
