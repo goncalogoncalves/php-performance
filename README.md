@@ -41,5 +41,5 @@ Execution time: 0.401 seconds
 
 #### Install with composer:
 ```
-composer require devgo/php-performance
+composer require devgo/php-performance:dev-master
 ```
