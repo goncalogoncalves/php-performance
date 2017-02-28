@@ -47,14 +47,14 @@ class Performance
 
         $steps = $this->steps;
 
-        for ($i=0; $i < sizeof($steps); $i++) {
+        for ($pos=0; $pos < sizeof($steps); $pos++) {
 
-            if (isset($steps[$i]["time"])) {
+            if (isset($steps[$pos]["time"])) {
 
-                $stepName            = isset($steps[$i]["name"]) ? $steps[$i]["name"] : "";
-                $stepTime            = $steps[$i]["time"];
-                $stepMemoryUsageSize = $steps[$i]["memory_usage_size"];
-                $stepMemoryPeakSize  = $steps[$i]["memory_peak_size"];
+                $stepName            = isset($steps[$pos]["name"]) ? $steps[$pos]["name"] : "";
+                $stepTime            = $steps[$pos]["time"];
+                $stepMemoryUsageSize = $steps[$pos]["memory_usage_size"];
+                $stepMemoryPeakSize  = $steps[$pos]["memory_peak_size"];
 
                 $report .= PHP_EOL.PHP_EOL.'NEW STEP: '.$stepName;
                 $report .= PHP_EOL.'Memory (usage: '.$stepMemoryUsageSize.' / peak: '.$stepMemoryPeakSize.')';
@@ -65,7 +65,7 @@ class Performance
                     $report .= PHP_EOL. round($diffStepsDuration["duration"], 4).' seconds  ' .'(Minutes: '. $diffStepsDuration["minutes"].' / Seconds: '. $diffStepsDuration["seconds"].')';
                 }
 
-                $lastStep = $this->steps[$i];
+                $lastStep = $this->steps[$pos];
             }
         }
 
@@ -172,7 +172,7 @@ class Performance
             if (file_exists($fileName)) {
                 if ($fileAppend == false) {
                     $resultSave = file_put_contents($fileName, $this->report);
-                }else{
+                }else if ($fileAppend == true || $fileAppend == null) {
                     $resultSave = file_put_contents($fileName, $this->report, FILE_APPEND);
                 }
 
@@ -247,7 +247,7 @@ class Performance
     function convertSize($size)
     {
         $unit = array('b','kb','mb','gb','tb','pb');
-        return @round($size/pow(1024,($i=floor(log($size,1024)))),2).' '.$unit[$i];
+        return @round($size/pow(1024,($pos=floor(log($size,1024)))),2).' '.$unit[$pos];
     }
 
 }
