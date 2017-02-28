@@ -53,18 +53,16 @@ class Performance
 
                 $stepName            = isset($steps[$i]["name"]) ? $steps[$i]["name"] : "";
                 $stepTime            = $steps[$i]["time"];
-                $stepMemoryUsage     = $steps[$i]["memory_usage"];
                 $stepMemoryUsageSize = $steps[$i]["memory_usage_size"];
-                $stepMemoryPeak      = $steps[$i]["memory_peak"];
                 $stepMemoryPeakSize  = $steps[$i]["memory_peak_size"];
 
                 $report .= PHP_EOL.PHP_EOL.'NEW STEP: '.$stepName;
                 $report .= PHP_EOL.'Memory (usage: '.$stepMemoryUsageSize.' / peak: '.$stepMemoryPeakSize.')';
 
                 if ($lastStep != null) {
-                    $differenceStepsDuration = $this->getDuration($lastStep["time"], $stepTime);
+                    $diffStepsDuration = $this->getDuration($lastStep["time"], $stepTime);
                     $report .= PHP_EOL.'Duration from _'. $lastStep["name"] .'_ to _'.$stepName.'_:';
-                    $report .= PHP_EOL. round($differenceStepsDuration["duration"], 4).' seconds  ' .'(Minutes: '. $differenceStepsDuration["minutes"].' / Seconds: '. $differenceStepsDuration["seconds"].')';
+                    $report .= PHP_EOL. round($diffStepsDuration["duration"], 4).' seconds  ' .'(Minutes: '. $diffStepsDuration["minutes"].' / Seconds: '. $diffStepsDuration["seconds"].')';
                 }
 
                 $lastStep = $this->steps[$i];
@@ -114,9 +112,8 @@ class Performance
 
             array_multisort($mid, SORT_ASC, $steps);
 
-        }else{
-            $steps = $steps;
         }
+
         return $steps;
     }
 
@@ -169,14 +166,14 @@ class Performance
     * @param  string $fileName the file where the report will be saved
     * @return boolean          state of the operation
     */
-    public function saveReport($fileName = null, $fileAppend = true)
+    public function saveReport($fileName = null, $fileAppend = null)
     {
         if ($this->report != "") {
             if (file_exists($fileName)) {
-                if ($fileAppend == true) {
-                    $resultSave = file_put_contents($fileName, $this->report, FILE_APPEND);
-                }else{
+                if ($fileAppend == false) {
                     $resultSave = file_put_contents($fileName, $this->report);
+                }else{
+                    $resultSave = file_put_contents($fileName, $this->report, FILE_APPEND);
                 }
 
                 if ($resultSave > 0) {
@@ -210,10 +207,9 @@ class Performance
             );
 
             return $arrayTime;
-
-        }else{
-            return false;
         }
+
+        return false;
     }
 
     /**
