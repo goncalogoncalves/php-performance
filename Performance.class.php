@@ -37,10 +37,7 @@ class Performance
     */
     public function buildReport(): string
     {
-        $dateNow = date("Y-m-d G:i:s");
-
-        $report = '';
-        $report .= PHP_EOL.'-------------------------------------------------------';
+        $report = PHP_EOL.'-------------------------------------------------------';
         $report .= PHP_EOL.'REPORT'.PHP_EOL;
 
         $lastStep = null;
@@ -59,7 +56,7 @@ class Performance
                 if ($lastStep != null) {
                     $diffStepsDuration = $this->getDuration($lastStep["time"], $stepTime);
                     $report .= PHP_EOL.'FROM '. $lastStep["name"] .' to '.$stepName.':  ';
-                    $report .= round($diffStepsDuration["duration"], 4).' seconds  (minutes: '. $diffStepsDuration["minutes"].'  seconds: '. $diffStepsDuration["seconds"].')';
+                    $report .= $diffStepsDuration["duration"]. ' seconds  (minutes: '. $diffStepsDuration["minutes"].'  seconds: '. $diffStepsDuration["seconds"].')';
                     $report .= '  (memory: '.$stepMemoryUsageSize.'  peak: '.$stepMemoryPeakSize.')';
                 }
 
@@ -67,7 +64,7 @@ class Performance
             }
         }
 
-        $report .= PHP_EOL.PHP_EOL.'Execution time: '. round($this->steps["execution_time"], 4) .' seconds  ('.$dateNow.')';
+        $report .= PHP_EOL.PHP_EOL.'Execution time: '. round($this->steps["execution_time"], 4) .' seconds  ('.date("Y-m-d G:i:s").')';
         $report .= PHP_EOL.'-------------------------------------------------------'.PHP_EOL;
 
         $this->report = $report;
@@ -84,11 +81,7 @@ class Performance
     {
         $steps = $this->steps;
 
-        if ($sort == "" || $sort == "asc") {
-
-            $steps = $steps;
-
-        }else if ($sort == "desc") {
+        if ($sort == "desc") {
 
             $steps = array_reverse($steps);
 
@@ -166,6 +159,8 @@ class Performance
             $hours      = (int) ($duration / 60 / 60);
             $minutes    = (int) ($duration/60) - $hours * 60;
             $seconds    = (int) $duration - $hours * 60 * 60 - $minutes * 60;
+
+            $duration = round($duration, 4);
 
             return array(
                 'duration' => $duration,
