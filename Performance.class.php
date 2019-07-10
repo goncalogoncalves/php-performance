@@ -13,9 +13,8 @@ namespace Devgo;
 * $performance->addStep("3");
 * $steps = $performance->getSteps('time desc');
 * $report = $performance->buildReport();
-* $resultSave = $performance->saveReport('performance.txt');
 */
-class Performance
+class Performance 
 {
     public $steps;
     public $report;
@@ -36,18 +35,19 @@ class Performance
     * responsible to build a report of the process
     * @return string report
     */
-    public function buildReport()
+    public function buildReport(): string
     {
         $dateNow = date("Y-m-d G:i:s");
 
         $report = '';
-        $report .= PHP_EOL.'___ NEW REPORT ___  '.$dateNow;
+        $report .= PHP_EOL.'-------------------------------------------------------';
+        $report .= PHP_EOL.'REPORT'.PHP_EOL;
 
         $lastStep = null;
 
         $steps = $this->steps;
 
-        for ($pos=0; $pos < sizeof($steps); $pos++) {
+        for ($pos=0; $pos < count($steps); $pos++) {
 
             if (isset($steps[$pos]["time"])) {
 
@@ -56,22 +56,19 @@ class Performance
                 $stepMemoryUsageSize = $steps[$pos]["memory_usage_size"];
                 $stepMemoryPeakSize  = $steps[$pos]["memory_peak_size"];
 
-                $report .= PHP_EOL.PHP_EOL.'NEW STEP: '.$stepName;
-                $report .= PHP_EOL.'Memory (usage: '.$stepMemoryUsageSize.' / peak: '.$stepMemoryPeakSize.')';
-
                 if ($lastStep != null) {
                     $diffStepsDuration = $this->getDuration($lastStep["time"], $stepTime);
-                    $report .= PHP_EOL.'Duration from _'. $lastStep["name"] .'_ to _'.$stepName.'_:';
-                    $report .= PHP_EOL. round($diffStepsDuration["duration"], 4).' seconds  ' .'(Minutes: '. $diffStepsDuration["minutes"].' / Seconds: '. $diffStepsDuration["seconds"].')';
+                    $report .= PHP_EOL.'FROM '. $lastStep["name"] .' to '.$stepName.':  ';
+                    $report .= round($diffStepsDuration["duration"], 4).' seconds  (minutes: '. $diffStepsDuration["minutes"].'  seconds: '. $diffStepsDuration["seconds"].')';
+                    $report .= '  (memory: '.$stepMemoryUsageSize.'  peak: '.$stepMemoryPeakSize.')';
                 }
 
                 $lastStep = $this->steps[$pos];
             }
         }
 
-        $report .= PHP_EOL.PHP_EOL;
-        $report .= 'Execution time: '. round($this->steps["execution_time"], 4) .' seconds';
-        $report .= PHP_EOL.PHP_EOL;
+        $report .= PHP_EOL.PHP_EOL.'Execution time: '. round($this->steps["execution_time"], 4) .' seconds  ('.$dateNow.')';
+        $report .= PHP_EOL.'-------------------------------------------------------'.PHP_EOL;
 
         $this->report = $report;
 
@@ -80,21 +77,22 @@ class Performance
 
     /**
     * get all the steps from the process
+    * @param string type of sort
     * @return array steps
     */
-    public function getSteps($sort = null)
+    public function getSteps($sort = ""): array
     {
         $steps = $this->steps;
 
-        if ($sort == null || $sort == "asc") {
+        if ($sort == "" || $sort == "asc") {
 
             $steps = $steps;
 
-        }elseif ($sort == "desc") {
+        }else if ($sort == "desc") {
 
             $steps = array_reverse($steps);
 
-        }elseif ($sort == "time desc") {
+        }else if ($sort == "time desc") {
 
             // Obtain a list of columns
             foreach ($steps as $key => $row) {
@@ -104,14 +102,13 @@ class Performance
             // Add $steps as the last parameter, to sort by the common key
             array_multisort($mid, SORT_DESC, $steps);
 
-        }elseif ($sort == "time asc") {
+        }else if ($sort == "time asc") {
 
             foreach ($steps as $key => $row) {
                 $mid[$key]  = $row['difference_last_step']["duration"];
             }
 
             array_multisort($mid, SORT_ASC, $steps);
-
         }
 
         return $steps;
@@ -119,9 +116,10 @@ class Performance
 
     /**
     * add a step to the process, getting usefull information
-    * @param boolean if it was well succeeded
+    * @param string name of the step
+    * @return boolean if it was well succeeded
     */
-    public function addStep($name = "")
+    public function addStep(string $name = ""): bool
     {
         $timeStart         = microtime(true);
         $nowMemoryUsage    = $this->getMemoryUsage();
@@ -138,14 +136,8 @@ class Performance
         $arrayNewStep["memory_peak"]       = $nowMemoryPeak;
         $arrayNewStep["memory_peak_size"]  = $nowMemoryPeakSize;
 
-        /*
-        // check step duration
-        $timeEnd = microtime(true);
-        $stepDuration = $this->getDuration($timeStart, $timeEnd);
-        $arrayNewStep["step_duration"] = $stepDuration;
-        */
-
         $differenceToLastStep = 0;
+
         // check last step time
         $lastStep = end($this->steps);
         if (isset($lastStep["time"])) {
@@ -162,36 +154,12 @@ class Performance
     }
 
     /**
-    * responsible to save the report in a file
-    * @param  string $fileName the file where the report will be saved
-    * @return boolean          state of the operation
-    */
-    public function saveReport($fileName = null, $fileAppend = null)
-    {
-        if ($this->report != "") {
-            if (file_exists($fileName)) {
-                if ($fileAppend == false) {
-                    $resultSave = file_put_contents($fileName, $this->report);
-                }else if ($fileAppend == true || $fileAppend == null) {
-                    $resultSave = file_put_contents($fileName, $this->report, FILE_APPEND);
-                }
-
-                if ($resultSave > 0) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /**
     * get two times and return duration between
     * @param  int $timeStart inicial time
     * @param  int $timeEnd   finish time
     * @return array          duration between times
     */
-    public function getDuration($timeStart = null, $timeEnd = null)
+    public function getDuration($timeStart = null, $timeEnd = null): array
     {
         if ($timeStart != null & $timeEnd != null) {
             $duration   = $timeEnd - $timeStart;
@@ -199,24 +167,22 @@ class Performance
             $minutes    = (int) ($duration/60) - $hours * 60;
             $seconds    = (int) $duration - $hours * 60 * 60 - $minutes * 60;
 
-            $arrayTime = array(
+            return array(
                 'duration' => $duration,
                 'hours'    => $hours,
                 'minutes'  => $minutes,
                 'seconds'  => $seconds
             );
-
-            return $arrayTime;
         }
 
-        return false;
+        return array();
     }
 
     /**
     * get memory usage
     * @return int memory usage
     */
-    public function getMemoryUsage()
+    public function getMemoryUsage(): int
     {
         return memory_get_usage();
     }
@@ -225,7 +191,7 @@ class Performance
     * get memory peak
     * @return int memory peak
     */
-    public function getMemoryPeak()
+    public function getMemoryPeak(): int
     {
         return memory_get_peak_usage();
     }
@@ -234,19 +200,19 @@ class Performance
     * PHP process ID
     * @return int php process id
     */
-    public function getProcessID()
+    public function getProcessID(): int
     {
         return getmypid();
     }
 
     /**
     * convert size for better reading
-    * @param  string $size variable to be converted
+    * @param  int $size variable to be converted
     * @return string       converted string
     */
-    function convertSize($size)
+    function convertSize(int $size = 0): string
     {
-        $unit = array('b','kb','mb','gb','tb','pb');
+        $unit = array('b','Kb','Mb','Gb','Tb','Pb');
         return @round($size/pow(1024,($pos=floor(log($size,1024)))),2).' '.$unit[$pos];
     }
 
