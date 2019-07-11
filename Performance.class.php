@@ -4,6 +4,7 @@ namespace Devgo;
 
 /**
 * Class responsible for assisting in performance evaluation of a PHP code.
+* 
 * Example:
 * $performance = new Devgo\Performance();
 * $performance->addStep("1");
@@ -13,6 +14,7 @@ namespace Devgo;
 * $performance->addStep("3");
 * $steps = $performance->getSteps('time desc');
 * $report = $performance->buildReport();
+* 
 */
 class Performance 
 {
@@ -38,7 +40,7 @@ class Performance
     public function buildReport(): string
     {
         $report = PHP_EOL.'-------------------------------------------------------';
-        $report .= PHP_EOL.'REPORT'.PHP_EOL;
+        $report .= PHP_EOL.PHP_EOL.'REPORT'.PHP_EOL;
 
         $lastStep = null;
 
@@ -64,8 +66,7 @@ class Performance
             }
         }
 
-        $report .= PHP_EOL.PHP_EOL.'Execution time: '. round($this->steps["execution_time"], 4) .' seconds  ('.date("Y-m-d G:i:s").')';
-        $report .= PHP_EOL.'-------------------------------------------------------'.PHP_EOL;
+        $report .= PHP_EOL.PHP_EOL.'Execution time: '. round($this->steps["execution_time"], 4) .' seconds  ('.date("Y-m-d G:i:s").')'.PHP_EOL;
 
         $this->report = $report;
 
