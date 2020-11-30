@@ -15,7 +15,12 @@ usleep(300000); // 0.30s
 $performance->addStep("2");
 usleep(100000); // 0.10s
 $performance->addStep("3");
-$steps = $performance->getSteps();
+$performance->addStep("4");
+usleep(200000); // 0.20s
+$performance->addStep("5");
+usleep(400000); // 0.40s
+$performance->addStep("6");
+
 $report = $performance->buildReport();
 
 print_r("<pre>");
@@ -27,14 +32,18 @@ print_r("</pre>");
 #### Output:
 
 ```
--------------------------------------------------------
 REPORT
 
-FROM 1 to 2:  0.3006 seconds  (minutes: 0  seconds: 0)  (memory: 396.36 Kb  peak: 396.36 Kb)
-FROM 2 to 3:  0.1009 seconds  (minutes: 0  seconds: 0)  (memory: 397.17 Kb  peak: 397.17 Kb)
+FROM 1 to 2:  0.3 seconds       (minutes: 0)  (memory: 425.1 Kb  peak: 
+474.7 Kb)
+FROM 2 to 3:  0.1 seconds       (minutes: 0)  (memory: 425.91 Kb  peak: 474.7 Kb)
+FROM 3 to 4:  0 seconds         (minutes: 0)  (memory: 426.73 Kb  peak: 474.7 Kb)
+FROM 4 to 5:  0.2 seconds       (minutes: 0)  (memory: 427.54 Kb  peak: 474.7 Kb)
+FROM 5 to 6:  0.4 seconds       (minutes: 0)  (memory: 428.35 Kb  peak: 474.7 Kb)
 
-Execution time: 0.4015 seconds  (2019-07-10 11:25:37)
--------------------------------------------------------
+Execution time: 1 seconds (minutes: 0.02)
+Start: 2020-11-30 16:00:26
+End: 2020-11-30 16:00:27
 ```
 
 #### Install with composer:

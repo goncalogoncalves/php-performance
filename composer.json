@@ -1,5 +1,6 @@
 {
     "name": "devgo/php-performance",
+    "version": "1.1",
     "type": "class",
     "description": "Class responsible for assisting in performance evaluation of a PHP code.",
     "keywords": ["php","performance","evaluation"],
@@ -9,12 +10,12 @@
         {
             "name": "Gonçalo Gonçalves",
             "email": "devgoncalo@gmail.com",
-            "homepage": "http://goncalogoncalves.com/",
+            "homepage": "https://goncalogoncalves.com/",
             "role": "Developer"
         }
     ],
     "require": {
-        "php": ">=5.3.0"
+        "php": ">=7.3.0"
     },
     "autoload": {
         "classmap": [
