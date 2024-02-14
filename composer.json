@@ -1,25 +1,28 @@
 {
-    "name": "devgo/php-performance",
-    "version": "1.1",
-    "type": "class",
-    "description": "Class responsible for assisting in performance evaluation of a PHP code.",
-    "keywords": ["php","performance","evaluation"],
-    "homepage": "https://github.com/goncalogoncalves/php-performance",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Gonçalo Gonçalves",
-            "email": "devgoncalo@gmail.com",
-            "homepage": "https://goncalogoncalves.com/",
-            "role": "Developer"
-        }
-    ],
-    "require": {
-        "php": ">=7.3.0"
-    },
-    "autoload": {
-        "classmap": [
-            "Performance.class.php"
-        ]
+  "name": "devgo/php-performance",
+  "version": "1.2",
+  "type": "class",
+  "description": "Class responsible for assisting in performance evaluation of a PHP code.",
+  "keywords": [
+    "php",
+    "performance",
+    "evaluation"
+  ],
+  "homepage": "https://github.com/goncalogoncalves/php-performance",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Gonçalo Gonçalves",
+      "homepage": "https://goncalogoncalves.com/",
+      "role": "Developer"
     }
+  ],
+  "require": {
+    "php": ">=7.4.0"
+  },
+  "autoload": {
+    "classmap": [
+      "Performance.class.php"
+    ]
+  }
 }
