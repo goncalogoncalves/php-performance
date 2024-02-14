@@ -9,41 +9,36 @@ Class responsible for assisting in performance evaluation of a PHP code
 
 ```php
 use Devgo\Performance;
+
 $performance = new Performance();
-$performance->addStep("1");
-usleep(300000); // 0.30s
-$performance->addStep("2");
-usleep(100000); // 0.10s
-$performance->addStep("3");
-$performance->addStep("4");
+
+$performance->addStep('1');
 usleep(200000); // 0.20s
-$performance->addStep("5");
+$performance->addStep('2');
+usleep(100000); // 0.10s
+$performance->addStep('3');
 usleep(400000); // 0.40s
-$performance->addStep("6");
+$performance->addStep('4');
+usleep(300000); // 0.30s
+$performance->addStep('5');
 
-$report = $performance->buildReport();
-
-print_r("<pre>");
-var_dump($report);
-print_r("</pre>");
+var_dump($performance->buildReport());
 
 ```
 
 #### Output:
 
 ```
-REPORT
+REPORT PERFORMANCE
 
-FROM 1 to 2:  0.3 seconds       (minutes: 0)  (memory: 425.1 Kb  peak: 
-474.7 Kb)
-FROM 2 to 3:  0.1 seconds       (minutes: 0)  (memory: 425.91 Kb  peak: 474.7 Kb)
-FROM 3 to 4:  0 seconds         (minutes: 0)  (memory: 426.73 Kb  peak: 474.7 Kb)
-FROM 4 to 5:  0.2 seconds       (minutes: 0)  (memory: 427.54 Kb  peak: 474.7 Kb)
-FROM 5 to 6:  0.4 seconds       (minutes: 0)  (memory: 428.35 Kb  peak: 474.7 Kb)
+FROM 1 to 2:  0.2 seconds        (memory: 420.66 Kb / peak: 468.52 Kb)
+FROM 2 to 3:  0.11 seconds       (memory: 421.11 Kb / peak: 468.52 Kb)
+FROM 3 to 4:  0.4 seconds        (memory: 421.55 Kb / peak: 468.52 Kb)
+FROM 4 to 5:  0.31 seconds       (memory: 422 Kb / peak: 468.52 Kb)
 
-Execution time: 1 seconds (minutes: 0.02)
-Start: 2020-11-30 16:00:26
-End: 2020-11-30 16:00:27
+Execution time: 1.02 seconds (minutes: 0.02)
+Start: 2024-02-14 14:34:20
+End: 2024-02-14 14:34:21
 ```
 
 #### Install with composer:
